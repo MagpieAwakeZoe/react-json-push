@@ -1,0 +1,107 @@
+1.环境搭建。
+	webpack
+	
+module.exports = {
+	entry: './entry.js',	//入口文件是哪个？
+	output: {		//最后生成的包文件放置的位置
+		path: './dist',
+		filename: 'bundle.js'
+		},
+	module:{
+		loaders: [	//导入前端的文件
+		{ test:/\.css$/,loader:"style!css"},
+		{ test:/\.js|jsx$/,loaders:['babel']}
+			]
+		}
+	}
+
+
+
+开始搭建项目
+
+
+第一步：
+	配置package.json
+	在终端里输入：npm init
+	弹出一些对话:
+	需要注意的是入口文件，entry point:(index.js) app/index.js
+		      关键词，keywords:webpack react music-player(例子)
+			      license:(ISC) MIT
+
+	package.json创建完毕
+
+
+第二步：
+	配置依赖包
+	在终端里输入：npm install react --save
+	--save指的是安装好会在package.json中记录作为保存。
+	具体文件放在node_modules里
+
+这里介绍一下，我们从git上拉取的项目没有依赖，但是我们可以通过终端中在package.json下输入npm install
+来安装package.json中所记载的相关依赖。
+	
+
+第三步：
+	写webpack的配置文件
+	根目录下新建一个文件夹webpack.config.js
+	建立一个app文件夹 -- 新建一个index.js文件
+	建立一个dist文件夹
+
+	index.js里可以进行一些代码
+
+第四步:
+	终端打包：
+	输入: webpack
+	打包成功，生成一个bundle.js文件，即为打包结果
+
+第五步：可以在根目录建立一个HTML文件测试，导入dist/bundle.js。
+	
+	
+常用loader
+
+/**
+ * Created by by on 2017/11/1.
+ */
+module.exports = {
+    entry: './app/index.js',	//入口文件是哪个？这里要加“./”不然会被默认为模块。
+    output: {		//最后生成的包文件放置的位置
+        path: './dist',
+        filename: 'bundle.js'
+    },
+    module:{
+        loaders: [
+            {
+                test: /\.js$/,                    //将所有的js文件用babel处理
+                exclude: /node_modules/,        //不需要处理的文件夹
+                loader: "babel-loader",         //转码ES6-ES5
+                query:
+                    {
+                        presets:['react','es2015']
+                    }
+            },
+            {
+                test: /\.css$/,
+                loader: "style!css"
+            },
+            {
+                test: /\.less/,
+                loader: 'style-loader!css-loader!less-loader'
+            }
+        ]
+    }
+}
+
+支持配置好之后，在index.js里操作
+可以用es6的语法导入react
+之后新建一个index.less文件在同一个文件夹里
+同样在index.js里导入less文件，可以得到相应css效果
+
+
+
+
+webpack dev server 搭建开发
+配置好后在终端打入：
+webpack
+node server
+
+
